@@ -1,12 +1,13 @@
 
 import express, { Router } from "express";
-const { MongoClient, ObjectId } = require('mongodb');
+import { MongoClient, ObjectId } from 'mongodb';
 
 import serverless from "serverless-http";
 
 const mongoUri = 'mongodb+srv://yashokvardhanreddy:srff-cluster1995@srff-cluster.dhto4.mongodb.net/sr_frozen_foods?retryWrites=true&w=majority';
 const client = new MongoClient(mongoUri);
 const database = client.db('sr_frozen_foods');
+
 
 const api = express();
 
