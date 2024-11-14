@@ -29,7 +29,7 @@ api.get("/api/:collectionName/:id", async (req, res) =>{
     const { collectionName, id } = req.params;
     try {
         const collection = database.collection(collectionName);
-        const data = await collection.find({ _id: ObjectId(id)}).toArray();
+        const data = collection.find({ _id: ObjectId(id) });
         res.send(data);
     } catch (error) {
         console.error('Error fetching data:', error);
