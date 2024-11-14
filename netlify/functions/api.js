@@ -76,4 +76,4 @@ api.delete('/api/:collectionName/:id', async (req, res) => {
 });
 
 
-// export const handler = serverless(api);
+export const handler = serverless(api);
