@@ -17,7 +17,6 @@ api.get("/api/:collectionName", async (req, res) =>{
     try {
         const collection = database.collection(collectionName);
         const data = await collection.find().toArray();
-        console.log(data)
         res.send(data);
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -25,6 +24,18 @@ api.get("/api/:collectionName", async (req, res) =>{
     }
 })
 
+// GET Method - Single Item
+api.get("/api/:collectionName/:id", async (req, res) =>{
+    const { collectionName, id } = req.params;
+    try {
+        const collection = database.collection(collectionName);
+        const data = await collection.find({ _id: ObjectId(id)}).toArray();
+        res.send(data);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+})
 
 // POST Method
 api.post('/api/:collectionName', async (req, res) => {
