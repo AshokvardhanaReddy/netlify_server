@@ -26,7 +26,7 @@ api.get("/api/:collectionName", async (req, res) =>{
 
 
 // POST Method
-app.post('/api/:collectionName', async (req, res) => {
+api.post('/api/:collectionName', async (req, res) => {
     const { collectionName } = req.params;
     try {
         const newData = req.body;
@@ -41,7 +41,7 @@ app.post('/api/:collectionName', async (req, res) => {
 
 
 // PUT Method
-app.put('/api/:collectionName/:id', async (req, res) => {
+api.put('/api/:collectionName/:id', async (req, res) => {
     const { collectionName, id } = req.params;
     try {
         const { customer_name, customer_mobile, customer_office } = req.body;
@@ -58,7 +58,7 @@ app.put('/api/:collectionName/:id', async (req, res) => {
 
 
 // DELETE Method
-app.delete('/api/:collectionName/:id', async (req, res) => {
+api.delete('/api/:collectionName/:id', async (req, res) => {
     console.log(req.params)
     const { collectionName, id } = req.params;
     try {
