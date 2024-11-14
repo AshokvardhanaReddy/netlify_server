@@ -3,11 +3,13 @@ import express from "express";
 import { MongoClient, ObjectId } from 'mongodb';
 
 import serverless from "serverless-http";
-// const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
-const mongoUri = 'mongodb+srv://yashokvardhanreddy:srff-cluster1995@srff-cluster.dhto4.mongodb.net/sr_frozen_foods?retryWrites=true&w=majority';
+const mongoUri = process.env.MONGODB_URL;
+const database_name = process.env.DATABASE_NAME;
 const client = new MongoClient(mongoUri);
-const database = client.db('sr_frozen_foods');
+const database = client.db(database_name);
+
 
 const api = express();
 api.use(express.json());
@@ -30,7 +32,8 @@ api.get("/api/:collectionName/:id", async (req, res) =>{
     console.log(id);
     try {
         const collection = database.collection(collectionName);
-        const data = collection.findOne({ _id: new ObjectId(id) });
+        const data = await collection.findOne({ _id: new ObjectId(id) });
+        console.log(data);
         res.send(data);
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -91,3 +94,8 @@ api.delete('/api/:collectionName/:id', async (req, res) => {
 
 
 export const handler = serverless(api);
+
+
+api.listen(PORT, () => {
+    console.log(`Ashokvardhan's Server is running on http://localhost:${PORT}`);
+});
