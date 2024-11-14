@@ -3,7 +3,6 @@ import express from "express";
 import { MongoClient, ObjectId } from 'mongodb';
 
 import serverless from "serverless-http";
-const PORT = process.env.PORT || 5000;
 
 const mongoUri = process.env.MONGODB_URL;
 const database_name = process.env.DATABASE_NAME;
@@ -95,7 +94,3 @@ api.delete('/api/:collectionName/:id', async (req, res) => {
 
 export const handler = serverless(api);
 
-
-api.listen(PORT, () => {
-    console.log(`Ashokvardhan's Server is running on http://localhost:${PORT}`);
-});
