@@ -27,6 +27,7 @@ api.get("/api/:collectionName", async (req, res) =>{
 // GET Method - Single Item
 api.get("/api/:collectionName/:id", async (req, res) =>{
     const { collectionName, id } = req.params;
+    console.log(id);
     try {
         const collection = database.collection(collectionName);
         const data = collection.findOne({ _id: new ObjectId(id) });
@@ -36,6 +37,7 @@ api.get("/api/:collectionName/:id", async (req, res) =>{
         res.status(500).json({ message: 'Internal Server Error' });
     }
 })
+
 
 // POST Method
 api.post('/api/:collectionName', async (req, res) => {
