@@ -10,6 +10,7 @@ const client = new MongoClient(mongoUri);
 const database = client.db('sr_frozen_foods');
 
 const api = express();
+api.use(express.json());
 
 api.get("/api/:collectionName", async (req, res) =>{
     const { collectionName } = req.params;
