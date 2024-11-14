@@ -1,5 +1,5 @@
 
-import express, { Router } from "express";
+import express from "express";
 import { MongoClient, ObjectId } from 'mongodb';
 
 import serverless from "serverless-http";
@@ -9,12 +9,7 @@ const mongoUri = 'mongodb+srv://yashokvardhanreddy:srff-cluster1995@srff-cluster
 const client = new MongoClient(mongoUri);
 const database = client.db('sr_frozen_foods');
 
-// console.log(database);
-
 const api = express();
-
-const router = Router();
-api.get("/hello", (req, res) => res.send("Hello World!"));
 
 api.get("/api/:collectionName", async (req, res) =>{
     const { collectionName } = req.params;
@@ -30,6 +25,55 @@ api.get("/api/:collectionName", async (req, res) =>{
 })
 
 
+// POST Method
+app.post('/api/:collectionName', async (req, res) => {
+    const { collectionName } = req.params;
+    try {
+        const newData = req.body;
+        const collection = database.collection(collectionName);
+        const result = await collection.insertOne(newData);
+        res.status(201).json(result);
+    } catch (error) {
+        console.error('Error adding data:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
-// api.use("/api/", router);
-export const handler = serverless(api);
+
+// PUT Method
+app.put('/api/:collectionName/:id', async (req, res) => {
+    const { collectionName, id } = req.params;
+    try {
+        const { customer_name, customer_mobile, customer_office } = req.body;
+        const collection = database.collection(collectionName);
+        const updatedUser = await collection.updateOne({ _id: new ObjectId(id) }, { $set: { customer_name: customer_name, customer_mobile: customer_mobile, customer_office: customer_office } });
+        if (!updatedUser) {
+            return res.status(404).send('User not found');
+        }
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(500).send('Server Error');
+    }
+});
+
+
+// DELETE Method
+app.delete('/api/:collectionName/:id', async (req, res) => {
+    console.log(req.params)
+    const { collectionName, id } = req.params;
+    try {
+        const collection = database.collection(collectionName)
+        const result = await collection.deleteOne({ _id: new ObjectId(id) });
+        if (result.deletedCount === 1) {
+            res.status(200).json({ message: 'Document deleted successfully' });
+        } else {
+            res.status(404).json({ message: 'Document not found' });
+        }
+    } catch (error) {
+        console.error('Error deleting document:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+
+// export const handler = serverless(api);
