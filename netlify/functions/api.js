@@ -45,9 +45,9 @@ api.post('/api/:collectionName', async (req, res) => {
 api.put('/api/:collectionName/:id', async (req, res) => {
     const { collectionName, id } = req.params;
     try {
-        const { customer_name, customer_mobile, customer_office } = req.body;
+        const body = req.body;
         const collection = database.collection(collectionName);
-        const updatedUser = await collection.updateOne({ _id: new ObjectId(id) }, { $set: { customer_name: customer_name, customer_mobile: customer_mobile, customer_office: customer_office } });
+        const updatedUser = await collection.updateOne({ _id: new ObjectId(id) }, { $set: { ...body } });
         if (!updatedUser) {
             return res.status(404).send('User not found');
         }
