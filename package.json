@@ -1,6 +1,4 @@
 {
-  "type" : "module",
-
   "dependencies": {
     "@netlify/functions": "^2.8.2",
     "express": "^4.21.1",
