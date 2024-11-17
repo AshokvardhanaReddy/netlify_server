@@ -1,5 +1,7 @@
 
 import express from "express";
+import cors from "cors";
+
 import { MongoClient, ObjectId } from 'mongodb';
 
 import serverless from "serverless-http";
@@ -12,6 +14,7 @@ const database = client.db(database_name);
 
 const api = express();
 api.use(express.json());
+api.use(cors())
 
 api.get("/api/:collectionName", async (req, res) =>{
     const { collectionName } = req.params;
